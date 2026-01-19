@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, DataCollatorWithPadding
 from datasets import load_from_disk
 
 FDS = None  # Cache FederatedDataset
-
+DS_EVAL = None #Cached Evaluation Dataset
 
 def get_tokenizer_and_data_collator(model_name: str):
     # From: https://huggingface.co/docs/trl/en/sft_trainer
@@ -33,10 +33,15 @@ def load_data(partition_id: int, num_partitions: int, dataset_path: str):
         partitioner = IidPartitioner(num_partitions=num_partitions)
         partitioner.dataset = train_ds
         FDS = partitioner
-    client_trainset = FDS.load_partition(partition_id)
+    return FDS.load_partition(partition_id)
 
-    return client_trainset
-
+def load_eval_data(dataset_path: str):
+    """Load Evaluation data."""
+    global DS_EVAL
+    if DS_EVAL is None:
+        ds = load_from_disk(dataset_path)
+        DS_EVAL = ds['val']
+    return DS_EVAL
 
 def replace_keys(input_dict, match="-", target="_"):
     """Recursively replace match string with target string in dictionary keys."""

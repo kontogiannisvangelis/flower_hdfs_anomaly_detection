@@ -45,6 +45,7 @@ def main(grid: Grid, context: Context) -> None:
         grid=grid,
         initial_arrays=arrays,
         train_config=ConfigRecord({"save_path": save_path}),
+        evaluate_config=ConfigRecord({"save_path": save_path}),
         num_rounds=num_rounds,
         evaluate_fn=get_evaluate_fn(
             cfg.model, cfg.train.save_every_round, num_rounds, save_path

@@ -11,6 +11,7 @@ from transformers import TrainingArguments
 from src.dataset import (
     get_tokenizer_and_data_collator,
     load_data,
+    load_eval_data,
     replace_keys,
 )
 from src.custom_trainer import CustomTrainer
@@ -75,4 +76,45 @@ def train(msg: Message, context: Context):
 
 @app.evaluate()
 def evaluate(msg: Message, context: Context):
-    pass
+    cfg = DictConfig(replace_keys(unflatten_dict(context.run_config)))
+    training_arguments = TrainingArguments(**cfg.train.training_arguments)
+
+    evalset = load_eval_data(cfg.dataset.path)
+    tokenizer, data_collator = get_tokenizer_and_data_collator(cfg.model.name)
+
+    # Load the model and initialize it with the received weights
+    model = get_model(cfg.model)
+    set_peft_model_state_dict(model, msg.content["arrays"].to_torch_state_dict())
+
+    training_arguments.learning_rate = cfg.train.learning_rate
+    training_arguments.output_dir = msg.content["config"]["save_path"]
+
+    trainer = CustomTrainer(
+        model=model,
+        args=training_arguments,
+        eval_dataset=evalset,
+        tokenizer=tokenizer,
+        data_collator=data_collator,
+        compute_metrics=compute_metrics,
+    )
+
+    # Evaluate (this calls compute_metrics internally)
+    eval_results = trainer.evaluate()
+
+    # Pull metrics out (Trainer prefixes with "eval_")
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" * 10)
+    print(eval_results)
+    print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" * 10)
+    metrics = {
+        "eval_loss": eval_results.get("eval_loss"),
+        "accuracy": eval_results.get("eval_accuracy"),
+        "precision": eval_results.get("eval_precision"),
+        "recall": eval_results.get("eval_recall"),
+        "f1": eval_results.get("eval_f1"),
+        "num-examples": len(evalset),
+    }
+
+    metric_record = MetricRecord(metrics)
+    content = RecordDict({"metrics": metric_record})
+
+    return Message(content=content, reply_to=msg)
