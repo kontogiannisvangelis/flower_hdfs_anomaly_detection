@@ -10,8 +10,8 @@ from flwr.serverapp.strategy import FedAvg
 from omegaconf import DictConfig
 from peft import get_peft_model_state_dict, set_peft_model_state_dict
 
-from flowertune_llm.dataset import replace_keys
-from flowertune_llm.models import get_model
+from src.dataset import replace_keys
+from src.models import get_model
 
 # Create ServerApp
 app = ServerApp()
