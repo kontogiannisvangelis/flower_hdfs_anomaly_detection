@@ -8,15 +8,15 @@ from omegaconf import DictConfig
 from peft import get_peft_model_state_dict, set_peft_model_state_dict
 from transformers import TrainingArguments
 
-from src.dataset import (
+from flower_hdfs.dataset import (
     get_tokenizer_and_data_collator,
     load_data,
     load_eval_data,
     replace_keys,
 )
-from src.custom_trainer import CustomTrainer
-from src.models import get_model
-from src.utils import compute_class_weights, compute_metrics
+from flower_hdfs.custom_trainer import CustomTrainer
+from flower_hdfs.models import get_model
+from flower_hdfs.utils import compute_class_weights, compute_metrics
 
 # Avoid warnings
 os.environ["TOKENIZERS_PARALLELISM"] = "true"

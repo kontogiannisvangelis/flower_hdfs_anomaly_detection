@@ -3,16 +3,13 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "flowertune-llm"
+name = "flower_hdfs"
 version = "1.0.0"
-description = "FlowerTune LLM: Federated LLM Fine-tuning with Flower"
-license = "Apache-2.0"
 dependencies = [
     "flwr[simulation]>=1.25.0",
     "flwr-datasets>=0.5.0",
     "torch==2.7.0",
     "trl==0.8.1",
-    "bitsandbytes==0.45.4",
     "scipy==1.13.0",
     "peft==0.6.2",
     "fschat[model_worker,webui]==0.2.35",
@@ -20,20 +17,22 @@ dependencies = [
     "sentencepiece==0.2.0",
     "omegaconf==2.3.0",
     "hf_transfer==0.1.8",
+    "evaluate==0.4.6",
+    "scikit-learn==1.7.0",
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = ["."]
 
 [tool.flwr.app]
-publisher = "flwrlabs"
+publisher = "ekontogi"
 
 [tool.flwr.app.components]
-serverapp = "src.server_app:app"
-clientapp = "src.client_app:app"
+serverapp = "flower_hdfs.server_app:app"
+clientapp = "flower_hdfs.client_app:app"
 
 [tool.flwr.app.config]
-dataset.path= "/home/ekontogi/Diploma-Thesis/hdfs_anomaly_detection/data/tokenized_dataset"
+dataset.path= "/data"
 model.name = "prajjwal1/bert-tiny"
 model.lora.peft-lora-r = 32
 model.lora.peft-lora-alpha = 64

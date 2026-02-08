@@ -1,5 +1,3 @@
-"""flowertune-llm: A Flower / FlowerTune app."""
-
 import os
 from datetime import datetime
 
@@ -10,8 +8,8 @@ from flwr.serverapp.strategy import FedAvg
 from omegaconf import DictConfig
 from peft import get_peft_model_state_dict, set_peft_model_state_dict
 
-from src.dataset import replace_keys
-from src.models import get_model
+from flower_hdfs.dataset import replace_keys
+from flower_hdfs.models import get_model
 
 # Create ServerApp
 app = ServerApp()
