@@ -9,3 +9,10 @@ docker run --gpus all -it \
   flower_hdfs \
   flwr run .
 ```
+```
+rsync -avz \
+    --exclude-from='.dockerignore' \
+    -e "ssh -i ~/.ssh/key" \
+    ./ vkontogiannis@gpu.epu.ntua.gr:/mnt/datadrive/vkontogiannis \
+    --dry-run
+```
