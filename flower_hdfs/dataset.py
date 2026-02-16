@@ -3,11 +3,10 @@ from flwr_datasets.partitioner import IidPartitioner
 from transformers import AutoTokenizer, DataCollatorWithPadding
 from datasets import load_from_disk
 
-FDS = None  # Cache FederatedDataset
-DS_EVAL = None #Cached Evaluation Dataset
+FDS = None
+DS_EVAL = None
 
 def get_tokenizer_and_data_collator(model_name: str):
-    # From: https://huggingface.co/docs/trl/en/sft_trainer
     tokenizer = AutoTokenizer.from_pretrained(
         model_name, use_fast=True, padding_side="right"
     )
@@ -25,7 +24,6 @@ def get_tokenizer_and_data_collator(model_name: str):
 
 def load_data(partition_id: int, num_partitions: int, dataset_path: str):
     """Load partition data."""
-    # Only initialize `FederatedDataset` once
     global FDS
     if FDS is None:
         ds = load_from_disk(dataset_path)
