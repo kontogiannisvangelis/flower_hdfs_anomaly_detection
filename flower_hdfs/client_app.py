@@ -34,7 +34,7 @@ def train(msg: Message, context: Context):
     cfg = DictConfig(replace_keys(unflatten_dict(context.run_config)))
     training_arguments = TrainingArguments(**cfg.train.training_arguments)
 
-    trainset = load_data(partition_id, num_partitions, cfg.dataset.path)
+    trainset = load_data(partition_id, num_partitions, cfg.dataset.dirichlet.alpha, cfg.dataset.path)
     tokenizer, data_collator = get_tokenizer_and_data_collator(cfg.model.name)
     class_weights = compute_class_weights(trainset)
 

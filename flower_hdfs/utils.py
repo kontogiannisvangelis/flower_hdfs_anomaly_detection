@@ -14,15 +14,25 @@ def compute_metrics(eval_pred):
 
     return {
         "accuracy": accuracy.compute(predictions=preds, references=labels)["accuracy"],
-        "precision": precision.compute(
-            predictions=preds, references=labels, average="binary"
-        )["precision"],
-        "recall": recall.compute(
-            predictions=preds, references=labels, average="binary"
-        )["recall"],
-        "f1": f1.compute(predictions=preds, references=labels, average="binary")[
-            "f1"
-        ],
+        "precision": precision.compute(predictions=preds, references=labels, average="binary")["precision"],
+        "recall": recall.compute(predictions=preds, references=labels, average="binary")["recall"],
+        "f1": f1.compute(predictions=preds, references=labels, average="binary")["f1"],
+    }
+
+def compute_metrics_per_class(eval_pred):
+    logits, labels = eval_pred
+    preds = np.argmax(logits, axis=-1)
+
+    acc = accuracy.compute(predictions=preds, references=labels)["accuracy"]
+    prec = precision.compute(predictions=preds, references=labels, average=None)["precision"]
+    rec = recall.compute(predictions=preds, references=labels, average=None)["recall"]
+    f1s = f1.compute(predictions=preds, references=labels, average=None)["f1"]
+
+    return {
+        "accuracy": float(acc),
+        "precision": [float(x) for x in prec],
+        "recall": [float(x) for x in rec],
+        "f1": [float(x) for x in f1s],
     }
 
 

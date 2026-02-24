@@ -5,7 +5,7 @@ from datetime import datetime
 from flwr.app import ArrayRecord, ConfigRecord, Context, MetricRecord
 from flwr.common.config import unflatten_dict
 from flwr.serverapp import Grid, ServerApp
-from flwr.serverapp.strategy import FedAvg
+from flwr.serverapp.strategy import FedAvg, FedAdam
 from omegaconf import DictConfig
 from peft import get_peft_model_state_dict, set_peft_model_state_dict
 from transformers import TrainingArguments
@@ -13,7 +13,7 @@ from transformers import TrainingArguments
 from flower_hdfs.custom_trainer import CustomTrainer
 from flower_hdfs.dataset import replace_keys, get_tokenizer_and_data_collator, load_eval_data
 from flower_hdfs.models import get_model
-from flower_hdfs.utils import compute_metrics
+from flower_hdfs.utils import compute_metrics, compute_metrics_per_class
 
 app = ServerApp()
 
@@ -32,7 +32,7 @@ def main(grid: Grid, context: Context) -> None:
     init_model = get_model(cfg.model)
     arrays = ArrayRecord(get_peft_model_state_dict(init_model))
 
-    strategy = FedAvg(
+    strategy = FedAdam(
         fraction_train=cfg.strategy.fraction_train,
         fraction_evaluate=cfg.strategy.fraction_evaluate,
     )
@@ -41,7 +41,7 @@ def main(grid: Grid, context: Context) -> None:
         grid=grid,
         initial_arrays=arrays,
         train_config=ConfigRecord({"save_path": save_path}),
-        evaluate_config=ConfigRecord({"save_path": save_path}),
+        #evaluate_config=ConfigRecord({"save_path": save_path}),
         num_rounds=num_rounds,
         evaluate_fn=get_evaluate_fn(cfg.model, cfg.train.training_arguments, cfg.dataset.path),
     )
@@ -65,7 +65,7 @@ def get_evaluate_fn(model_cfg, training_args_cfg, dataset_path_cfg):
                 eval_dataset=eval_dataset,
                 tokenizer=tokenizer,
                 data_collator=data_collator,
-                compute_metrics=compute_metrics,
+                compute_metrics=compute_metrics_per_class,
             )
 
             print("CENTRAL EVAL START")

@@ -1,5 +1,4 @@
-from flwr_datasets import FederatedDataset
-from flwr_datasets.partitioner import IidPartitioner
+from flwr_datasets.partitioner import DirichletPartitioner
 from transformers import AutoTokenizer, DataCollatorWithPadding
 from datasets import load_from_disk
 
@@ -22,13 +21,15 @@ def get_tokenizer_and_data_collator(model_name: str):
     return tokenizer, data_collator
 
 
-def load_data(partition_id: int, num_partitions: int, dataset_path: str):
+def load_data(partition_id: int, num_partitions: int, dirichlet_alpa: float, dataset_path: str):
     """Load partition data."""
     global FDS
     if FDS is None:
         ds = load_from_disk(dataset_path)
         train_ds = ds['train']
-        partitioner = IidPartitioner(num_partitions=num_partitions)
+        partitioner = DirichletPartitioner(
+            num_partitions=num_partitions, partition_by="label", alpha=dirichlet_alpa
+        )
         partitioner.dataset = train_ds
         FDS = partitioner
     return FDS.load_partition(partition_id)
