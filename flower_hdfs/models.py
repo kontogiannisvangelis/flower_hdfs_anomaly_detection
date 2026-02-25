@@ -19,6 +19,7 @@ def get_model(model_cfg: DictConfig):
         r=model_cfg.lora.peft_lora_r,
         lora_alpha=model_cfg.lora.peft_lora_alpha,
         target_modules=["query", "value"],
+        modules_to_save=["classifier"],
         lora_dropout=0.01,
         bias="none",
         task_type="SEQ_CLS",
