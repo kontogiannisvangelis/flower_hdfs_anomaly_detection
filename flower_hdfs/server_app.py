@@ -5,7 +5,7 @@ from flwr.app import ArrayRecord, ConfigRecord, Context, MetricRecord
 from flwr.common.config import unflatten_dict
 from flwr.serverapp import Grid, ServerApp
 from flwr.serverapp.strategy import FedAvg, FedAdam
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig
 from peft import get_peft_model_state_dict, set_peft_model_state_dict
 from transformers import TrainingArguments
 
@@ -32,7 +32,14 @@ def main(grid: Grid, context: Context) -> None:
     init_model = get_model(cfg.model)
     arrays = ArrayRecord(get_peft_model_state_dict(init_model))
 
-    strategy = FedAdam(
+    if cfg.strategy.type == "avg":
+        strategy_cls = FedAvg
+    elif cfg.strategy.type == "adam":
+        strategy_cls = FedAdam
+    else:
+        raise ValueError(f"Unknown strategy type: {cfg.type}")
+
+    strategy = strategy_cls(
         fraction_train=cfg.strategy.fraction_train,
         fraction_evaluate=cfg.strategy.fraction_evaluate,
     )
