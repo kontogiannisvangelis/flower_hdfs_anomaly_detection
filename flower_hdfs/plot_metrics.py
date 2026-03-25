@@ -2,6 +2,7 @@ import os
 import json
 from collections import defaultdict
 import matplotlib.pyplot as plt
+from matplotlib import ticker
 
 
 def plot(base_path, eval_log_filename, plot_save_path):
@@ -12,8 +13,6 @@ def plot(base_path, eval_log_filename, plot_save_path):
             obj = json.loads(line)
             if obj.get("type") == "metrics":
                 records.append(obj)
-
-    print(records)
 
     records.sort(key=lambda x: x["round"])
     rounds = [r["round"] for r in records]
@@ -37,11 +36,12 @@ def plot(base_path, eval_log_filename, plot_save_path):
         plt.figure()
         for ci, vals in sorted(per_class.items()):
             color = class_colors.get(ci)
-            plt.plot(rounds, vals, marker="o", label=f"class {ci}", color=color)
+            plt.plot(rounds, vals, linewidth=1.5, alpha=0.8, label=f"class {ci}", color=color)
         plt.title(metric_name)
         plt.xlabel("round")
         plt.ylabel(metric_name)
-        plt.xticks(rounds)
+        ax = plt.gca()
+        ax.xaxis.set_major_locator(ticker.MaxNLocator(nbins=10, integer=True))
         plt.grid(True, alpha=0.3)
         plt.legend()
         plt.tight_layout()
@@ -51,11 +51,12 @@ def plot(base_path, eval_log_filename, plot_save_path):
 
     for metric_name, vals in scalar_metrics.items():
         plt.figure()
-        plt.plot(rounds, vals, marker="o")
+        plt.plot(rounds, vals, linewidth=1.5, alpha=0.8)
         plt.title(metric_name)
         plt.xlabel("round")
         plt.ylabel(metric_name)
-        plt.xticks(rounds)
+        ax = plt.gca()
+        ax.xaxis.set_major_locator(ticker.MaxNLocator(nbins=10, integer=True))
         plt.grid(True, alpha=0.3)
         plt.tight_layout()
 
@@ -64,7 +65,7 @@ def plot(base_path, eval_log_filename, plot_save_path):
 
 
 if __name__ == "__main__":
-    base_path = "/home/ekontogi/Diploma-Thesis/flower_hdfs_anomaly_detection/results/2026-02-26_01-31-54"
+    base_path = "/home/ekontogi/Diploma-Thesis/flower_hdfs_anomaly_detection/results/2026-03-14_16-21-35"
     filename = "eval_logs.jsonl"
     plot_save_path = os.path.join(base_path, "metrics")
     os.makedirs(plot_save_path, exist_ok=True)
