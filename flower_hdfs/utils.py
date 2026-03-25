@@ -1,39 +1,11 @@
-import evaluate
 import numpy as np
 import torch
 
-accuracy = evaluate.load("accuracy")
-precision = evaluate.load("precision")
-recall = evaluate.load("recall")
-f1 = evaluate.load("f1")
 
-
-def compute_metrics(eval_pred):
-    logits, labels = eval_pred
-    preds = np.argmax(logits, axis=-1)
-
-    return {
-        "accuracy": accuracy.compute(predictions=preds, references=labels)["accuracy"],
-        "precision": precision.compute(predictions=preds, references=labels, average="binary")["precision"],
-        "recall": recall.compute(predictions=preds, references=labels, average="binary")["recall"],
-        "f1": f1.compute(predictions=preds, references=labels, average="binary")["f1"],
-    }
-
-def compute_metrics_per_class(eval_pred):
-    logits, labels = eval_pred
-    preds = np.argmax(logits, axis=-1)
-
-    acc = accuracy.compute(predictions=preds, references=labels)["accuracy"]
-    prec = precision.compute(predictions=preds, references=labels, average=None)["precision"]
-    rec = recall.compute(predictions=preds, references=labels, average=None)["recall"]
-    f1s = f1.compute(predictions=preds, references=labels, average=None)["f1"]
-
-    return {
-        "accuracy": float(acc),
-        "precision": [float(x) for x in prec],
-        "recall": [float(x) for x in rec],
-        "f1": [float(x) for x in f1s],
-    }
+def softmax_np(x: np.ndarray, axis: int = 1) -> np.ndarray:
+    x = x - np.max(x, axis=axis, keepdims=True)
+    exp_x = np.exp(x)
+    return exp_x / np.sum(exp_x, axis=axis, keepdims=True)
 
 
 def compute_class_weights(dataset, label_column="label", num_classes=None):

@@ -1,19 +1,26 @@
 import os
 from datetime import datetime
+from logging import INFO
 
 from flwr.app import ArrayRecord, ConfigRecord, Context, MetricRecord
 from flwr.common.config import unflatten_dict
 from flwr.serverapp import Grid, ServerApp
 from flwr.serverapp.strategy import FedAvg, FedAdam
+from flwr.common.logger import log
 from omegaconf import DictConfig
-from peft import get_peft_model_state_dict, set_peft_model_state_dict
-from transformers import TrainingArguments
+from peft import get_peft_model_state_dict
 
-from flower_hdfs.central_eval_logger import write_header, write_metrics
-from flower_hdfs.custom_trainer import CustomTrainer
-from flower_hdfs.dataset import replace_keys, get_tokenizer_and_data_collator, load_eval_data
+from flower_hdfs.central_eval_logger import (
+    write_header,
+    write_metrics,
+    write_tuned_metrics,
+)
+from flower_hdfs.compute_metrics import compute_metrics_per_class_with_threshold
+from flower_hdfs.dataset import replace_keys
+from flower_hdfs.dataset_split import DatasetSplit
 from flower_hdfs.models import get_model
-from flower_hdfs.utils import compute_metrics_per_class
+from flower_hdfs.model_ops import score, predict
+from flower_hdfs.threshold_tuning import find_best_threshold
 
 app = ServerApp()
 
@@ -53,7 +60,7 @@ def main(grid: Grid, context: Context) -> None:
     )
 
 
-def get_evaluate_fn(cfg, save_path):
+def get_evaluate_fn(cfg: DictConfig, save_path: str):
 
     def evaluate(server_round: int, arrays: ArrayRecord) -> MetricRecord:
         os.makedirs(save_path, exist_ok=True)
@@ -62,37 +69,33 @@ def get_evaluate_fn(cfg, save_path):
         if server_round == 0:
             write_header(cfg, eval_log_path)
             return MetricRecord()
-        else :
-            training_arguments = TrainingArguments(**cfg.train.training_arguments)
-            training_arguments.output_dir = save_path
-            eval_dataset = load_eval_data(cfg.dataset.path)
-            tokenizer, data_collator = get_tokenizer_and_data_collator(cfg.model.name)
-
-            model = get_model(cfg.model)
-            set_peft_model_state_dict(model, arrays.to_torch_state_dict())
-
-            trainer = CustomTrainer(
-                model=model,
-                args=training_arguments,
-                eval_dataset=eval_dataset,
-                tokenizer=tokenizer,
-                data_collator=data_collator,
-                compute_metrics=compute_metrics_per_class,
-            )
-
-            eval_results = trainer.evaluate()
-
-            metrics = {
-                "eval_loss": eval_results.get("eval_loss"),
-                "accuracy": eval_results.get("eval_accuracy"),
-                "precision": eval_results.get("eval_precision"),
-                "recall": eval_results.get("eval_recall"),
-                "f1": eval_results.get("eval_f1"),
-            }
-
+        else:
+            metrics = score(cfg, save_path, arrays)
             write_metrics(metrics, server_round, eval_log_path)
 
-            return MetricRecord(metrics)
+            # if last round perform threshold tuning
+            if server_round == cfg.num_server_rounds:
+                log(INFO, "THRESHOLD TUNING")
+                preds = predict(cfg, save_path, arrays, DatasetSplit.EVAL)
+                logits = preds.predictions
+                labels = preds.label_ids
 
+                best_thr, best_f1 = find_best_threshold(logits, labels)
+
+                # evaluate new threshold on EVAL split
+                metrics_tuned = compute_metrics_per_class_with_threshold(
+                    logits, labels, best_thr, DatasetSplit.EVAL
+                )
+                write_tuned_metrics(metrics_tuned, server_round, eval_log_path)
+
+                # evaluate new threshold on TEST split
+                preds = predict(cfg, save_path, arrays, DatasetSplit.TEST)
+                logits = preds.predictions
+                labels = preds.label_ids
+                metrics_tuned = compute_metrics_per_class_with_threshold(
+                    logits, labels, best_thr, DatasetSplit.TEST
+                )
+                write_tuned_metrics(metrics_tuned, server_round, eval_log_path)
+            return MetricRecord(metrics)
 
     return evaluate

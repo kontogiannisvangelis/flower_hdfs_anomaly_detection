@@ -3,6 +3,7 @@ import json
 from collections import defaultdict
 import matplotlib.pyplot as plt
 
+
 def plot(base_path, eval_log_filename, plot_save_path):
     records = []
 
@@ -13,7 +14,6 @@ def plot(base_path, eval_log_filename, plot_save_path):
                 records.append(obj)
 
     print(records)
-
 
     records.sort(key=lambda x: x["round"])
     rounds = [r["round"] for r in records]
