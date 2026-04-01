@@ -36,9 +36,13 @@ def fit(msg: Message, context: Context):
     model = get_model(cfg.model)
     set_peft_model_state_dict(model, msg.content["arrays"].to_torch_state_dict())
 
-    # maybe use cosine annealing
     training_arguments.learning_rate = cfg.train.learning_rate
     training_arguments.output_dir = msg.content["config"]["save_path"]
+
+    focal_gamma = cfg.train.focal_gamma
+    focal_alpha = None
+    if cfg.train.focal_alpha is not None and cfg.train.focal_alpha:
+        focal_alpha = class_weights
 
     trainer = CustomTrainer(
         model=model,
@@ -48,6 +52,8 @@ def fit(msg: Message, context: Context):
         data_collator=data_collator,
         compute_metrics=compute_metrics,
         class_weights=class_weights,
+        focal_gamma=focal_gamma,
+        focal_alpha=focal_alpha,
     )
     return trainer.train(), model, len(trainset)
 

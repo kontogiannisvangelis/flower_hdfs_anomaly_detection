@@ -74,7 +74,7 @@ def get_evaluate_fn(cfg: DictConfig, save_path: str):
             write_metrics(metrics, server_round, eval_log_path)
 
             # if last round perform threshold tuning
-            if server_round == cfg.num_server_rounds:
+            if server_round == cfg.num_server_rounds and cfg.train.threshold_tuning:
                 log(INFO, "THRESHOLD TUNING")
                 preds = predict(cfg, save_path, arrays, DatasetSplit.EVAL)
                 logits = preds.predictions

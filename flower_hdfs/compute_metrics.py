@@ -27,6 +27,13 @@ def compute_metrics(preds):
 
 
 def compute_metrics_per_class(preds):
+    """
+    Computes evaluation metrics for binary classification.
+
+    - Uses argmax over logits to get predicted class labels.
+    - Computes precision, recall, and F1-score using `average="binary"`,
+      which means metrics are calculated for the positive class (label = 1).
+    """
     logits, labels = preds
     preds = np.argmax(logits, axis=-1)
 
