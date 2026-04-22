@@ -31,7 +31,7 @@ def fit(msg: Message, context: Context):
         partition_id, num_partitions, cfg.dataset.dirichlet.alpha, cfg.dataset.path
     )
     tokenizer, data_collator = get_tokenizer_and_data_collator(cfg.model.name)
-    class_weights = compute_class_weights(trainset)
+    class_weights = compute_class_weights(trainset, 2)
 
     model = get_model(cfg.model)
     set_peft_model_state_dict(model, msg.content["arrays"].to_torch_state_dict())

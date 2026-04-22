@@ -14,6 +14,7 @@ def write_header(cfg: DictConfig, eval_log_path: str):
             "strategy": cfg.strategy,
             "dirichlet_alpha": cfg.dataset.dirichlet.alpha,
             "num_server_rounds": cfg.num_server_rounds,
+            "num_clients": cfg.num_clients,
         }
     )
     header = {

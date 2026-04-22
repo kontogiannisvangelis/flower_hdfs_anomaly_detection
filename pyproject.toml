@@ -57,6 +57,7 @@ strategy.type = "avg" # avg, adam
 strategy.fraction-train = 1.0
 strategy.fraction-evaluate = 0
 num-server-rounds = 2
+num-clients = 4 # should have the save value as `options.num-supernodes`
 
 [tool.flwr.federations]
 default = "local-simulation"

@@ -12,7 +12,9 @@ LABELS = {
     "f1": "F1 Score",
     "precision": "Precision",
     "recall": "Recall",
+    "num_clients": "Number of Clients",
     "learning_rate": "Learning Rate",
+    "fraction_train": "Fraction Train",
     "batch_size": "Batch Size",
     "num_train_epochs": "Number of Training Epochs",
     "dirichlet_alpha": "Dirichlet Alpha",
@@ -20,7 +22,6 @@ LABELS = {
     "round": "Round",
     "class": "Class",
 }
-
 
 def pretty_label(name):
     return LABELS.get(name, name.replace("_", " ").title())
@@ -31,10 +32,23 @@ def plot_params(params, plot_save_path):
 
     train_args = cfg.get("train", {}).get("training_arguments", {})
     train_cfg = cfg.get("train", {})
+    strategy_cfg = cfg.get("strategy", {})
 
     summary_params = {
+        "num_clients": cfg.get(
+            "num_clients", "2"
+        ),
+        "fraction_train": strategy_cfg.get(
+            "fraction_train", "N/A"
+        ),
         "learning_rate": train_cfg.get(
             "learning_rate", train_args.get("learning_rate", "N/A")
+        ),
+        "gamma": train_cfg.get(
+            "focal_gamma", "N/A"
+        ),
+        "alpha": train_cfg.get(
+            "focal_alpha", "N/A"
         ),
         "batch_size": train_args.get("per_device_train_batch_size", "N/A"),
         "num_train_epochs": train_args.get("num_train_epochs", "N/A"),

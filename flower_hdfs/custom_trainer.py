@@ -3,7 +3,6 @@ from logging import INFO
 import torch
 import torch.nn.functional as F
 from transformers import Trainer
-from flwr.common.logger import log
 
 
 class CustomTrainer(Trainer):
