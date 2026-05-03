@@ -15,6 +15,7 @@ LABELS = {
     "num_clients": "Number of Clients",
     "learning_rate": "Learning Rate",
     "fraction_train": "Fraction Train",
+    "strategy_type": "Strategy Type",
     "batch_size": "Batch Size",
     "num_train_epochs": "Number of Training Epochs",
     "dirichlet_alpha": "Dirichlet Alpha",
@@ -41,6 +42,7 @@ def plot_params(params, plot_save_path):
         "fraction_train": strategy_cfg.get(
             "fraction_train", "N/A"
         ),
+        "strategy_type": strategy_cfg.get("type", "N/A"),
         "learning_rate": train_cfg.get(
             "learning_rate", train_args.get("learning_rate", "N/A")
         ),

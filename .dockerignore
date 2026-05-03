@@ -1,4 +1,4 @@
-results/
+results*/
 notebooks/
 __pycache__/
 *.pyc

@@ -40,16 +40,22 @@ def main(grid: Grid, context: Context) -> None:
     arrays = ArrayRecord(get_peft_model_state_dict(init_model))
 
     if cfg.strategy.type == "avg":
-        strategy_cls = FedAvg
-    elif cfg.strategy.type == "adam":
-        strategy_cls = FedAdam
-    else:
-        raise ValueError(f"Unknown strategy type: {cfg.type}")
-
-    strategy = strategy_cls(
+        strategy = FedAvg(
         fraction_train=cfg.strategy.fraction_train,
         fraction_evaluate=cfg.strategy.fraction_evaluate,
     )
+    elif cfg.strategy.type == "adam":
+        strategy = FedAdam(
+        fraction_train=cfg.strategy.fraction_train,
+        fraction_evaluate=cfg.strategy.fraction_evaluate,
+        eta=0.005,
+        eta_l=0.0005,
+        beta_1=0.9,
+        beta_2=0.99,
+        tau=1e-6,
+    )
+    else:
+        raise ValueError(f"Unknown strategy type: {cfg.type}")
 
     strategy.start(
         grid=grid,
