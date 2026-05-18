@@ -32,8 +32,9 @@ serverapp = "flower_hdfs.server_app:app"
 clientapp = "flower_hdfs.client_app:app"
 
 [tool.flwr.app.config]
-dataset.path= "/data"
-model.name = "prajjwal1/bert-tiny"
+dataset.path= "/home/ekontogi/Diploma-Thesis/dataset/tokenized_dataset"
+#model.name = "prajjwal1/bert-tiny"
+model.name = "bert-base-uncased"
 model.lora.peft-lora-r = 32
 model.lora.peft-lora-alpha = 64
 train.learning_rate = 1e-5
@@ -52,9 +53,9 @@ train.training-arguments.warmup_ratio = 0.1
 train.threshold_tuning = true
 train.focal_gamma = 1
 train.focal_alpha = true
-dataset.dirichlet.alpha=1
+dataset.dirichlet.alpha=10
 strategy.type = "avg" # avg, adam
-strategy.fraction-train = 1.0
+strategy.fraction-train = 0.5
 strategy.fraction-evaluate = 0
 num-server-rounds = 2
 num-clients = 4 # should have the save value as `options.num-supernodes`
@@ -63,6 +64,6 @@ num-clients = 4 # should have the save value as `options.num-supernodes`
 default = "local-simulation"
 
 [tool.flwr.federations.local-simulation]
-options.num-supernodes = 2
+options.num-supernodes = 4
 options.backend.client-resources.num-cpus = 4
 options.backend.client-resources.num-gpus = 0
