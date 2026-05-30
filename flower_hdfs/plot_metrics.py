@@ -194,7 +194,7 @@ def plot(log_dir, eval_log_filename, plot_save_path):
 
 
 if __name__ == "__main__":
-    base_path = "/home/ekontogi/Diploma-Thesis/flower_hdfs_anomaly_detection/results"
+    base_path = "/home/ekontogi/Diploma-Thesis/flower_hdfs_anomaly_detection/experiments/rank_16"
     filename = "eval_logs.jsonl"
     for entry in os.listdir(base_path):
         subdir = os.path.join(base_path, entry)

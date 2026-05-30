@@ -1,0 +1,44 @@
+{"type": "params", "config": {"model": {"name": "bert-base-uncased", "lora": {"peft_lora_r": 16, "peft_lora_alpha": 32}}, "train": {"learning_rate": 0.0005, "seq_length": 512, "training_arguments": {"output_dir": "", "learning_rate": "", "per_device_train_batch_size": 32, "gradient_accumulation_steps": 2, "logging_steps": 10, "num_train_epochs": 2, "save_strategy": "no", "gradient_checkpointing": true, "lr_scheduler_type": "constant", "warmup_ratio": 0.1}, "threshold_tuning": true, "focal_gamma": -1, "focal_alpha": false}, "strategy": {"type": "adam", "fraction_train": 1, "fraction_evaluate": 0}, "dirichlet_alpha": 100, "num_server_rounds": 40, "num_clients": 2}}
+{"eval_loss": 0.5882896184921265, "accuracy": 0.7757212847033206, "precision": 0.3878606423516603, "recall": 0.5, "f1": 0.4368485591661557, "type": "metrics", "round": 1}
+{"eval_loss": 0.5250135660171509, "accuracy": 0.7757212847033206, "precision": 0.3878606423516603, "recall": 0.5, "f1": 0.4368485591661557, "type": "metrics", "round": 2}
+{"eval_loss": 0.5056833028793335, "accuracy": 0.7757212847033206, "precision": 0.3878606423516603, "recall": 0.5, "f1": 0.4368485591661557, "type": "metrics", "round": 3}
+{"eval_loss": 0.5082664489746094, "accuracy": 0.7653783342406096, "precision": 0.4106487308579819, "recall": 0.49419604837336056, "f1": 0.43581764531090894, "type": "metrics", "round": 4}
+{"eval_loss": 0.5429397225379944, "accuracy": 0.8323353293413174, "precision": 0.7697854324599902, "recall": 0.7073088059955714, "f1": 0.7293981481481482, "type": "metrics", "round": 5}
+{"eval_loss": 0.6130671501159668, "accuracy": 0.7561241154055526, "precision": 0.6919246970384292, "recall": 0.7522219383409982, "f1": 0.7033191729897936, "type": "metrics", "round": 6}
+{"eval_loss": 0.692082405090332, "accuracy": 0.5503538377789875, "precision": 0.6248371530446396, "recall": 0.6687651166751831, "f1": 0.5394229134795172, "type": "metrics", "round": 7}
+{"eval_loss": 0.7379611134529114, "accuracy": 0.4267827980402831, "precision": 0.6120234857975089, "recall": 0.6124092999489014, "f1": 0.4267821185841731, "type": "metrics", "round": 8}
+{"eval_loss": 0.7294167280197144, "accuracy": 0.472509526401742, "precision": 0.6155176663204408, "recall": 0.6341185487991825, "f1": 0.47081340395683036, "type": "metrics", "round": 9}
+{"eval_loss": 0.6782633066177368, "accuracy": 0.6058791507893304, "precision": 0.6387097355119877, "recall": 0.6967901549991483, "f1": 0.5859521318987846, "type": "metrics", "round": 10}
+{"eval_loss": 0.613016664981842, "accuracy": 0.728905824714208, "precision": 0.6803569220878767, "recall": 0.7484815193323113, "f1": 0.6839236850106416, "type": "metrics", "round": 11}
+{"eval_loss": 0.5597391724586487, "accuracy": 0.7806205770277627, "precision": 0.7079196362742688, "recall": 0.7593842616249361, "f1": 0.7226228554921394, "type": "metrics", "round": 12}
+{"eval_loss": 0.5278152227401733, "accuracy": 0.7953184540010887, "precision": 0.719114818561313, "recall": 0.7619562255152444, "f1": 0.7338173634233568, "type": "metrics", "round": 13}
+{"eval_loss": 0.515661358833313, "accuracy": 0.804028307022319, "precision": 0.7275890536792964, "recall": 0.7667075455629364, "f1": 0.7419508905995393, "type": "metrics", "round": 14}
+{"eval_loss": 0.5186220407485962, "accuracy": 0.799129014697877, "precision": 0.7228584349024506, "recall": 0.7644123658661216, "f1": 0.7375174687479308, "type": "metrics", "round": 15}
+{"eval_loss": 0.5310701727867126, "accuracy": 0.7953184540010887, "precision": 0.721172034603647, "recall": 0.7688579458354625, "f1": 0.7366589397913743, "type": "metrics", "round": 16}
+{"eval_loss": 0.5451574921607971, "accuracy": 0.7860642351660315, "precision": 0.7138891396587523, "recall": 0.7663438937148697, "f1": 0.7291642985363548, "type": "metrics", "round": 17}
+{"eval_loss": 0.5519757866859436, "accuracy": 0.7822536744692433, "precision": 0.7112049700545275, "recall": 0.7656131834440469, "f1": 0.7262303242017163, "type": "metrics", "round": 18}
+{"eval_loss": 0.5454645156860352, "accuracy": 0.7844311377245509, "precision": 0.7127674929058894, "recall": 0.7661539771759496, "f1": 0.7279536275243081, "type": "metrics", "round": 19}
+{"eval_loss": 0.5272361040115356, "accuracy": 0.7969515514425695, "precision": 0.7234925318089618, "recall": 0.7724987225344916, "f1": 0.7392762682010736, "type": "metrics", "round": 20}
+{"eval_loss": 0.5044684410095215, "accuracy": 0.8072945019052804, "precision": 0.731389945078158, "recall": 0.7705382388008857, "f1": 0.7458939652073336, "type": "metrics", "round": 21}
+{"eval_loss": 0.48433130979537964, "accuracy": 0.8492106695699511, "precision": 0.7825065559440559, "recall": 0.7906540623403169, "f1": 0.7864269965872742, "type": "metrics", "round": 22}
+{"eval_loss": 0.4709504246711731, "accuracy": 0.859009254218835, "precision": 0.7994166817006434, "recall": 0.7883427014137285, "f1": 0.7936235286258905, "type": "metrics", "round": 23}
+{"eval_loss": 0.46574100852012634, "accuracy": 0.859009254218835, "precision": 0.8003508822335792, "recall": 0.7848918412536194, "f1": 0.792126022094499, "type": "metrics", "round": 24}
+{"eval_loss": 0.46815577149391174, "accuracy": 0.859009254218835, "precision": 0.7996412035393203, "recall": 0.7874799863737012, "f1": 0.793252256468485, "type": "metrics", "round": 25}
+{"eval_loss": 0.4762219190597534, "accuracy": 0.859553620032662, "precision": 0.7985264959727768, "recall": 0.7964580139669563, "f1": 0.7974832071376075, "type": "metrics", "round": 26}
+{"eval_loss": 0.48655951023101807, "accuracy": 0.8492106695699511, "precision": 0.7820674545213119, "recall": 0.7966930676205075, "f1": 0.7888807984250563, "type": "metrics", "round": 27}
+{"eval_loss": 0.49469614028930664, "accuracy": 0.8317909635274905, "precision": 0.7593687593848149, "recall": 0.788915857605178, "f1": 0.7717787637126815, "type": "metrics", "round": 28}
+{"eval_loss": 0.49617090821266174, "accuracy": 0.8307022318998367, "precision": 0.7581443455776105, "recall": 0.7890768182592404, "f1": 0.7709939973343756, "type": "metrics", "round": 29}
+{"eval_loss": 0.4899528920650482, "accuracy": 0.8502994011976048, "precision": 0.7834131884495164, "recall": 0.8008456821665815, "f1": 0.7914217753725961, "type": "metrics", "round": 30}
+{"eval_loss": 0.47934889793395996, "accuracy": 0.8633641807294502, "precision": 0.8032129226196507, "recall": 0.8058158746380515, "f1": 0.8045003084581123, "type": "metrics", "round": 31}
+{"eval_loss": 0.4692806899547577, "accuracy": 0.869352204681546, "precision": 0.8141722569203484, "recall": 0.8053619485607222, "f1": 0.8096149461422066, "type": "metrics", "round": 32}
+{"eval_loss": 0.4634578227996826, "accuracy": 0.8709853021230267, "precision": 0.8178766818141316, "recall": 0.8038264350195878, "f1": 0.8104722207106709, "type": "metrics", "round": 33}
+{"eval_loss": 0.46329236030578613, "accuracy": 0.8720740337506805, "precision": 0.8198248720975994, "recall": 0.8045281894055527, "f1": 0.8117309915659566, "type": "metrics", "round": 34}
+{"eval_loss": 0.46854469180107117, "accuracy": 0.8720740337506805, "precision": 0.8186203505952507, "recall": 0.8079790495656618, "f1": 0.8130822304826275, "type": "metrics", "round": 35}
+{"eval_loss": 0.47698572278022766, "accuracy": 0.8677191072400653, "precision": 0.8098142870745708, "recall": 0.8103483222619656, "f1": 0.81008073008073, "type": "metrics", "round": 36}
+{"eval_loss": 0.48498082160949707, "accuracy": 0.864452912357104, "precision": 0.8042564894787352, "recall": 0.8099684891841255, "f1": 0.8070447340612892, "type": "metrics", "round": 37}
+{"eval_loss": 0.4883263111114502, "accuracy": 0.8617310832879695, "precision": 0.7999272739293566, "recall": 0.8090768182592403, "f1": 0.8043240133123986, "type": "metrics", "round": 38}
+{"eval_loss": 0.48545774817466736, "accuracy": 0.8666303756124115, "precision": 0.8075019794140934, "recall": 0.8122347129960825, "f1": 0.8098225562664347, "type": "metrics", "round": 39}
+{"eval_loss": 0.47801950573921204, "accuracy": 0.8709853021230267, "precision": 0.8147225833751361, "recall": 0.8141790154999149, "f1": 0.8144502174206744, "type": "metrics", "round": 40}
+{"accuracy": 0.8683351468988031, "precision": 0.8111596736596737, "recall": 0.809003050150465, "f1": 0.8100720776115324, "threshold": 0.5, "dataset_split": "TEST", "type": "metrics", "round": 40}
+{"accuracy": 0.8737071311921611, "precision": 0.8195159362412165, "recall": 0.8150706864247999, "f1": 0.8172553136019978, "threshold": 0.505, "dataset_split": "EVAL", "type": "tuned_metrics", "round": 40}
+{"accuracy": 0.8710554951033732, "precision": 0.8159568024961952, "recall": 0.8098932447337246, "f1": 0.8128533922433181, "threshold": 0.505, "dataset_split": "TEST", "type": "tuned_metrics", "round": 40}
