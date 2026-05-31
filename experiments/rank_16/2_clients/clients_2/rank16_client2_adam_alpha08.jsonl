@@ -39,6 +39,6 @@
 {"eval_loss": 0.47958868741989136, "accuracy": 0.8758845944474687, "precision": 0.8241317264159904, "recall": 0.8138860500766479, "f1": 0.8188118400697696, "type": "metrics", "round": 38}
 {"eval_loss": 0.48093974590301514, "accuracy": 0.8753402286336418, "precision": 0.8231736863357855, "recall": 0.8135351728836655, "f1": 0.8181792641903401, "type": "metrics", "round": 39}
 {"eval_loss": 0.48290687799453735, "accuracy": 0.8764289602612956, "precision": 0.8241901694430791, "recall": 0.8168250723897121, "f1": 0.8204055914721307, "type": "metrics", "round": 40}
-{"accuracy": 0.8721436343852013, "precision": 0.8180882993023666, "recall": 0.8097315459088495, "f1": 0.8137753551237108, "threshold": 0.5, "dataset_split": "TEST", "type": "metrics", "round": 40}
+{"accuracy": 0.8721436343852013, "precision": 0.8180882993023666, "recall": 0.8097315459088495, "f1": 0.8137753551237108, "threshold": 0.5, "dataset_split": "TEST", "type": "test_metrics", "round": 40}
 {"accuracy": 0.8764289602612956, "precision": 0.8241901694430791, "recall": 0.8168250723897121, "f1": 0.8204055914721307, "threshold": 0.5, "dataset_split": "EVAL", "type": "tuned_metrics", "round": 40}
-{"accuracy": 0.8721436343852013, "precision": 0.8180882993023666, "recall": 0.8097315459088495, "f1": 0.8137753551237108, "threshold": 0.5, "dataset_split": "TEST", "type": "tuned_metrics", "round": 40}
+{"accuracy": 0.8721436343852013, "precision": 0.8180882993023666, "recall": 0.8097315459088495, "f1": 0.8137753551237108, "threshold": 0.5, "dataset_split": "TEST", "type": "test_tuned_metrics", "round": 40}

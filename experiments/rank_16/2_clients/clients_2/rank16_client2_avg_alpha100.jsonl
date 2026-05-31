@@ -41,4 +41,4 @@
 {"eval_loss": 0.45267412066459656, "accuracy": 0.8780620577027762, "precision": 0.8280110928003119, "recall": 0.8152895588485778, "f1": 0.8213519126973652, "type": "metrics", "round": 40}
 {"accuracy": 0.8764961915125136, "precision": [0.914878892733564, 0.7353689567430025], "recall": [0.9270687237026648, 0.7014563106796117], "f1": [0.9209334726576106, 0.7180124223602484], "threshold": 0.5, "dataset_split": "TEST", "type": "test_metrics", "round": 40}
 {"accuracy": 0.8786064235166031, "precision": 0.8276981877973691, "recall": 0.8190912962016692, "f1": 0.8232575497727356, "threshold": 0.49, "dataset_split": "EVAL", "type": "tuned_metrics", "round": 40}
-{"accuracy": 0.8764961915125136, "precision": 0.8245140077297286, "recall": 0.8159884393850678, "f1": 0.820114917502478, "threshold": 0.49, "dataset_split": "TEST", "type": "tuned_metrics", "round": 40}
+{"accuracy": 0.8764961915125136, "precision": 0.8245140077297286, "recall": 0.8159884393850678, "f1": 0.820114917502478, "threshold": 0.49, "dataset_split": "TEST", "type": "test_tuned_metrics", "round": 40}
